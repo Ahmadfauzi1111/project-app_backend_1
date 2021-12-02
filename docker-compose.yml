@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  # Membuat image dan download dari docker hub
+  backend:
+    build: .
+    ports:
+    # Port localhost dan container nest
+      - 8000:3000
+    # Configure Container
+    volumes:
+      - .:/usr/src/app
+    # Backend akan mengambil image DB
+    depends_on:
+      - db
+  # Membuat Image Database
+  db:
+    # Membuat image dan download dari docker hub
+    image: mysql:5.7.22
+    # Agar image restart
+    restart: always
+    # Mendifinisikan environtmen
+    environment:
+      # Nama DB
+      MYSQL_DATABASE: project-nest
+      # User DB
+      MYSQL_USER: root
+      # Password DB
+      MYSQL_PASSWORD: root
+      # Mysql Password
+      MYSQL_ROOT_PASSWORD: root
+      # Configure Container
+    volumes:
+      - .dbdata:/var/lib/mysql
+      # Port yang digunakan
+    ports:
+      - 33066:3306
